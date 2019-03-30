@@ -1,2 +1,3 @@
-# pokedek
+# pokedex
+
 Flutter Pokedex App
