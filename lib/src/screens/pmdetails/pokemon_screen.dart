@@ -35,9 +35,9 @@ class PokemonDetails extends StatelessWidget {
       builder: (_, PokemonState state) {
         return Scaffold(
           appBar: AppBar(title: Text('Pokemon Details')),
-          body: Text('${state.id}'),
+          body: Text('Pokemon-Nr.: ${state.id}\n ${state.json}'),
           floatingActionButton: FloatingActionButton(
-            onPressed: null,
+            onPressed: () => _pokemonBloc.onFetchPokemon(),
             child: Icon(Icons.refresh),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
