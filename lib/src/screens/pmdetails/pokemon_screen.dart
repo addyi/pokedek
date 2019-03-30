@@ -12,10 +12,27 @@ class _PokemonScreenState extends State<PokemonScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Pokemon Details')
-      ),
+      appBar: AppBar(title: Text('Pokemon Details')),
       body: Text('A Pokemon'),
+      floatingActionButton: FloatingActionButton(
+        onPressed: null,
+        child: Icon(Icons.refresh),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.menu,
+                color: Theme.of(context).accentColor,
+              ),
+              onPressed: () => Navigator.of(context).pushNamed('/count'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

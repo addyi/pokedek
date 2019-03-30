@@ -8,8 +8,10 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: 'Pokedex',
       theme: ThemeData(primarySwatch: Colors.blue),
-      //home: CounterScreen(title: 'Flutter Demo Home Page'),
       home: PokemonScreen(),
+      routes: <String, WidgetBuilder>{
+        '/count': (BuildContext context) => CounterScreen(title: 'Counter'),
+      },
     );
   }
 }
