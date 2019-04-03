@@ -48,9 +48,9 @@ class PokemonDetailsScaffold extends StatelessWidget {
               _pokemonBloc.onFetchPokemon();
               return Text('TODO PokemonEmpty'); // TODO
             } else if (state is PokemonLoading) {
-              return Text('TODO PokemonLoading'); // TODO
+              return PokemonLoading();
             } else if (state is PokemonLoaded) {
-              return new PokemonStatistics();
+              return PokemonStatistics();
             } else if (state is PokemonError) {
               return Text('Todo PokemonError'); // TODO
             } else {
@@ -77,6 +77,22 @@ class PokemonDetailsScaffold extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class PokemonLoading extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          CircularProgressIndicator(),
+          SizedBox(height: 10),
+          Text("Loading"),
+        ],
       ),
     );
   }
