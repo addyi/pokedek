@@ -60,6 +60,7 @@ class PokemonDetailsScaffold extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        key: Key('refresh_fab'),
         onPressed: () => _pokemonBloc.onFetchPokemon(),
         child: Icon(Icons.refresh),
       ),
@@ -69,6 +70,7 @@ class PokemonDetailsScaffold extends StatelessWidget {
         child: Row(
           children: <Widget>[
             IconButton(
+              key: Key('menu_iconButton'),
               icon: Icon(
                 Icons.menu,
                 color: Theme.of(context).accentColor,

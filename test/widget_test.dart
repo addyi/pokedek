@@ -9,11 +9,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:pokedex/src/app.dart';
+import 'package:pokedex/src/screens/counter_screen.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Check existance of ButtomNavigationBar and FAB', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(App());
+
+    expect(find.byKey(Key('refresh_fab')), findsOneWidget);
+    expect(find.byKey(Key('menu_iconButton')), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.menu));
+    await tester.pump();
+  });
+
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(MaterialApp(home: CounterScreen(title: 'Foobar')));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
