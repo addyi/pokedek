@@ -8,7 +8,7 @@ import 'package:pokedex/src/screens/pmdetails/pokemon_state.dart';
 
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   @override
-  PokemonState get initialState => PokemonState.initial();
+  PokemonState get initialState => PokemonEmpty();
 
   var _random = Random();
 
@@ -18,7 +18,7 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
       int rand = _random.nextInt(806) + 1; // min 1, max 807
       var result = await get('https://pokeapi.co/api/v2/pokemon/$rand/');
       var decodedJson = jsonDecode(result.body);
-      yield PokemonState.newPokemon(decodedJson['id'], decodedJson);
+      yield PokemonLoaded.newPokemon(decodedJson['id'], decodedJson);
     }
   }
 

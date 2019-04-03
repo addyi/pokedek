@@ -12,10 +12,16 @@ class _PokemonScreenState extends State<PokemonScreen> {
   final PokemonBloc _pokemonBloc = PokemonBloc();
 
   @override
+  void initState() {
+    super.initState();
+    _pokemonBloc.onFetchPokemon(); // correct position for fetch?
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProviderTree(
       blocProviders: [BlocProvider<PokemonBloc>(bloc: _pokemonBloc)],
-      child: PokemonDetails(),
+      child: PokemonDetailsScaffold(),
     );
   }
 
@@ -26,36 +32,81 @@ class _PokemonScreenState extends State<PokemonScreen> {
   }
 }
 
-class PokemonDetails extends StatelessWidget {
+class PokemonDetailsScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PokemonBloc _pokemonBloc = BlocProvider.of<PokemonBloc>(context);
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Pokemon Details')),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: BlocBuilder(
+          bloc: _pokemonBloc,
+          builder: (_, PokemonState state) {
+            if (state is PokemonEmpty) {
+              _pokemonBloc.onFetchPokemon();
+              return Text('TODO PokemonEmpty'); // TODO
+            } else if (state is PokemonLoading) {
+              return Text('TODO PokemonLoading'); // TODO
+            } else if (state is PokemonLoaded) {
+              return new PokemonStatistics();
+            } else if (state is PokemonError) {
+              return Text('Todo PokemonError'); // TODO
+            } else {
+              // TODO: ILLEGAL STATE EXCEPTION
+            }
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _pokemonBloc.onFetchPokemon(),
+        child: Icon(Icons.refresh),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      bottomNavigationBar: BottomAppBar(
+        shape: CircularNotchedRectangle(),
+        child: Row(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.menu,
+                color: Theme.of(context).accentColor,
+              ),
+              onPressed: () => Navigator.of(context).pushNamed('/count'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PokemonStatistics extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final PokemonBloc _pokemonBloc = BlocProvider.of<PokemonBloc>(context);
+
     return BlocBuilder(
       bloc: _pokemonBloc,
       builder: (_, PokemonState state) {
-        return Scaffold(
-          appBar: AppBar(title: Text('Pokemon Details')),
-          body: Text('Pokemon-Nr.: ${state.id}\n ${state.json}'),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => _pokemonBloc.onFetchPokemon(),
-            child: Icon(Icons.refresh),
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-          bottomNavigationBar: BottomAppBar(
-            shape: CircularNotchedRectangle(),
-            child: Row(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    color: Theme.of(context).accentColor,
-                  ),
-                  onPressed: () => Navigator.of(context).pushNamed('/count'),
-                ),
-              ],
-            ),
-          ),
-        );
+        if (state is PokemonLoaded) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text('Pokemon-Nr.: ${state.id}'),
+              Text(
+                  'Name.: ${state.json == null ? 'Is null' : state.json['name']}'),
+              Text(
+                  'Sprite.: ${state.json == null ? 'Is null' : state.json['sprites']}'),
+              Image.network(state.json == null
+                  ? ''
+                  : state.json['sprites']['front_default']),
+            ],
+          );
+        } else {
+          // TODO: _pokemonBloc.onException() [not onError!!]
+        }
       },
     );
   }

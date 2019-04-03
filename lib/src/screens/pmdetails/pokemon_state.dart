@@ -1,15 +1,23 @@
 import 'package:meta/meta.dart';
 
+abstract class PokemonState {}
+
+class PokemonEmpty extends PokemonState {}
+
+class PokemonLoading extends PokemonState {}
+
+class PokemonError extends PokemonState {}
+
 @immutable
-class PokemonState {
+class PokemonLoaded extends PokemonState {
   final int id;
   final Map<String, dynamic> json;
 
-  PokemonState._(this.id, this.json);
+  PokemonLoaded._(this.id, this.json);
 
-  factory PokemonState.initial() => PokemonState._(0, null);
+  factory PokemonLoaded.initial() => PokemonLoaded._(0, null);
 
-  factory PokemonState.newPokemon(id, json) => PokemonState._(id, json);
+  factory PokemonLoaded.newPokemon(id, json) => PokemonLoaded._(id, json);
 
   @override
   String toString() {
