@@ -46,13 +46,13 @@ class PokemonDetailsScaffold extends StatelessWidget {
           builder: (_, PokemonState state) {
             if (state is PokemonEmpty) {
               _pokemonBloc.onFetchPokemon();
-              return Text('TODO PokemonEmpty'); // TODO
+              return PokemonErrorWidget();
             } else if (state is PokemonLoading) {
-              return PokemonLoading();
+              return PokemonLoadingWidget();
             } else if (state is PokemonLoaded) {
               return PokemonStatistics();
             } else if (state is PokemonError) {
-              return Text('Todo PokemonError'); // TODO
+              return PokemonErrorWidget();
             } else {
               // TODO: ILLEGAL STATE EXCEPTION
             }
@@ -82,7 +82,29 @@ class PokemonDetailsScaffold extends StatelessWidget {
   }
 }
 
-class PokemonLoading extends StatelessWidget {
+class PokemonErrorWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(
+            '¯\\_(ツ)_/¯',
+            style: TextStyle(fontSize: 30),
+          ),
+          SizedBox(height: 15),
+          Text(
+            "We unfortunately experienced technical difficulties please try again.",
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PokemonLoadingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
