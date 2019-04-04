@@ -40,7 +40,7 @@ class PokemonDetailsScaffold extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text('Pokemon Details')),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(16.0),
         child: BlocBuilder(
           bloc: _pokemonBloc,
           builder: (_, PokemonState state) {
@@ -131,13 +131,43 @@ class PokemonStatistics extends StatelessWidget {
       bloc: _pokemonBloc,
       builder: (_, PokemonState state) {
         if (state is PokemonLoaded) {
-          return Column(
+          return Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Pokemon-Nr.: ${state.pokemon.id}'),
-              Text('Name: ${state.pokemon.name}'),
-              Text('${state.pokemon.toString()}'),
-              Image.network(state.pokemon.pokemonSprites.frontDefault),
+              //Image.network(state.pokemon.pokemonSprites.frontDefault),
+              SizedBox(
+                width: 96,
+                height: 96,
+                child: FadeInImage.assetNetwork(
+                  placeholder: 'assets/pokemon-0.png',
+                  image: state.pokemon.pokemonSprites.frontDefault,
+                ),
+              ),
+              SizedBox(width: 8),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    '${state.pokemon.name} #${state.pokemon.id}',
+                    style: TextStyle(fontSize: 24),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    'Height: ${state.pokemon.height}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                    'Weight: ${state.pokemon.weight}',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  //Text('${state.pokemon.toString()}'),
+                ],
+              ),
             ],
           );
         } else {
