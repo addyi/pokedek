@@ -27,13 +27,17 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
       var response = await get('https://pokeapi.co/api/v2/pokemon/$rand/');
       if (response.statusCode == 200) {
         Pokemon pokemon = Pokemon.fromJson(jsonDecode(response.body));
-        return PokemonLoaded.newPokemon(pokemon);
+        return PokemonLoaded(pokemon);
       } else {
         // TODO: CHECK CASE
       }
       return null;
-    } catch (_) {
-      return PokemonError();
+    } on FormatException catch (e) {
+      return PokemonError(e.message);
+    } on NoSuchMethodError catch (e) {
+      return PokemonError(e.toString());
+    } catch (e) {
+      return PokemonError(e.toString());
     }
   }
 

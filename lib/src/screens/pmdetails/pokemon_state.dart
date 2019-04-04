@@ -7,15 +7,23 @@ class PokemonEmpty extends PokemonState {}
 
 class PokemonLoading extends PokemonState {}
 
-class PokemonError extends PokemonState {}
+@immutable
+class PokemonError extends PokemonState {
+  final String error;
+
+  PokemonError(this.error);
+
+  @override
+  String toString() {
+    return 'PokemonError{error: $error}';
+  }
+}
 
 @immutable
 class PokemonLoaded extends PokemonState {
   final Pokemon pokemon;
 
-  PokemonLoaded._(this.pokemon);
-
-  factory PokemonLoaded.newPokemon(pokemon) => PokemonLoaded._(pokemon);
+  PokemonLoaded(this.pokemon);
 
   @override
   String toString() {
