@@ -134,14 +134,10 @@ class PokemonStatistics extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('Pokemon-Nr.: ${state.id}'),
-              Text(
-                  'Name.: ${state.json == null ? 'Is null' : state.json['name']}'),
-              Text(
-                  'Sprite.: ${state.json == null ? 'Is null' : state.json['sprites']}'),
-              Image.network(state.json == null
-                  ? ''
-                  : state.json['sprites']['front_default']),
+              Text('Pokemon-Nr.: ${state.pokemon.id}'),
+              Text('Name: ${state.pokemon.name}'),
+              Text('${state.pokemon.toString()}'),
+              Image.network(state.pokemon.pokemonSprites.frontDefault),
             ],
           );
         } else {

@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:pokedex/src/models/pokemon.dart';
 
 abstract class PokemonState {}
 
@@ -10,17 +11,14 @@ class PokemonError extends PokemonState {}
 
 @immutable
 class PokemonLoaded extends PokemonState {
-  final int id;
-  final Map<String, dynamic> json;
+  final Pokemon pokemon;
 
-  PokemonLoaded._(this.id, this.json);
+  PokemonLoaded._(this.pokemon);
 
-  factory PokemonLoaded.initial() => PokemonLoaded._(0, null);
-
-  factory PokemonLoaded.newPokemon(id, json) => PokemonLoaded._(id, json);
+  factory PokemonLoaded.newPokemon(pokemon) => PokemonLoaded._(pokemon);
 
   @override
   String toString() {
-    return 'PokemonState: $id';
+    return 'PokemonLoaded{pokemon: $pokemon}';
   }
 }
