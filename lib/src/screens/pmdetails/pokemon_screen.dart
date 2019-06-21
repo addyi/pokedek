@@ -131,44 +131,53 @@ class PokemonStatistics extends StatelessWidget {
       bloc: _pokemonBloc,
       builder: (_, PokemonState state) {
         if (state is PokemonLoaded) {
-          return Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              //Image.network(state.pokemon.pokemonSprites.frontDefault),
-              SizedBox(
-                width: 96,
-                height: 96,
-                child: FadeInImage.assetNetwork(
-                  placeholder: 'assets/pokemon-0.png',
-                  image: state.pokemon.pokemonSprites.frontDefault,
+          return RefreshIndicator(
+            onRefresh: () {
+              _pokemonBloc.onFetchPokemon();
+            },
+            child: ListView(
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    //Image.network(state.pokemon.pokemonSprites.frontDefault),
+                    SizedBox(
+                      width: 96,
+                      height: 96,
+                      child: FadeInImage.assetNetwork(
+                        placeholder: 'assets/pokemon-0.png',
+                        image: state.pokemon.pokemonSprites.frontDefault,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          '${state.pokemon.name} #${state.pokemon.id}',
+                          style: TextStyle(fontSize: 24),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          'Height: ${state.pokemon.height}',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          'Weight: ${state.pokemon.weight}',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        //Text('${state.pokemon.toString()}'),
+                      ],
+                    ),
+                  ],
                 ),
-              ),
-              SizedBox(width: 8),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    '${state.pokemon.name} #${state.pokemon.id}',
-                    style: TextStyle(fontSize: 24),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    'Height: ${state.pokemon.height}',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    'Weight: ${state.pokemon.weight}',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  //Text('${state.pokemon.toString()}'),
-                ],
-              ),
-            ],
+              ],
+            ),
           );
         } else {
           // TODO: _pokemonBloc.onException() [not onError!!]
